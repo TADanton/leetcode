@@ -1,0 +1,55 @@
+class Solution {
+public:
+    std::vector<int> convert(int num);
+    int hammingDistance(int x, int y) {
+        std::vector<int> x_bin;
+        std::vector<int> y_bin;
+        
+        int distance =0;
+        x_bin = convert(x);
+        y_bin = convert(y);
+        if (y_bin.size()>x_bin.size()){
+            int diff_min = y_bin.size() - x_bin.size();
+            
+            std::vector<int>::iterator it_x;
+            std::vector<int>::iterator it_y;
+            
+            for (it_x=x_bin.begin(), it_y=y_bin.begin(); (it_x<=x_bin.end())&&(it_y<=y_bin.end()); it_x++, it_y++){
+                
+                if(*it_x=*it_y){
+                    distance = distance +1;
+                }
+                
+            }
+            return distance + diff_min;
+        }
+        else{
+            int diff_min = y_bin.size() - x_bin.size();
+            std::vector<int>::iterator it_x;
+            std::vector<int>::iterator it_y;
+            
+            /*for (it_x=x_bin.begin(), it_y=y_bin.begin(); (it_x<=x_bin.end())&&(it_y<=y_bin.end()); it_x++, it_y++){
+                
+                if(*it_x=*it_y){
+                    distance = distance +1;
+                }
+                
+            }*/
+            return distance + diff_min;
+            
+        }
+        
+    }
+};
+
+std::vector<int> Solution::convert(int num){
+    std::vector<int> num_bin;
+    
+    while(num>0){
+        int this_bit = num%2;
+        num = num/2;
+        num_bin.push_back(this_bit);
+        
+    }
+    return num_bin;
+}
