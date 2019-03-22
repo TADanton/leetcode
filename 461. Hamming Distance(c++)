@@ -1,9 +1,12 @@
+#include <iostream>
+
+
 class Solution {
 public:
 
     std::vector<int> convert(int num){
         std::vector<int> num_bin;
-        while(num>0){
+        while(num>=0){
             int this_bit = num%2;
             num = num/2;
             num_bin.push_back(this_bit);
@@ -79,4 +82,26 @@ public:
     }
 };
 
-    
+int stringToInteger(string input) {
+    return stoi(input);
+}
+
+int main() {
+    string line;
+    //while (getline(cin, line)) {
+        int x = 1 //stringToInteger(line);
+        //getline(cin, line);
+        int y = 2 // stringToInteger(line);
+        
+        int ret = Solution().hammingDistance(x, y);
+
+        string out = to_string(ret);
+        cout << out << endl;
+    //}
+    return 0;
+}
+
+
+函数中间直接写
+return __builtin_popcount(x^y);    
+__builtin_popcount()用于计算一个 32 位无符号整数有多少个位为1
