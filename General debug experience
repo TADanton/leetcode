@@ -1,0 +1,2 @@
+#expected unqualified-id before string constant __begin_decls
+这是因为某个地方少了分号
