@@ -1,55 +1,82 @@
 class Solution {
 public:
-    std::vector<int> convert(int num);
-    int hammingDistance(int x, int y) {
-        std::vector<int> x_bin;
-        std::vector<int> y_bin;
-        
-        int distance =0;
-        x_bin = convert(x);
-        y_bin = convert(y);
-        if (y_bin.size()>x_bin.size()){
-            int diff_min = y_bin.size() - x_bin.size();
-            
-            std::vector<int>::iterator it_x;
-            std::vector<int>::iterator it_y;
-            
-            for (it_x=x_bin.begin(), it_y=y_bin.begin(); (it_x<=x_bin.end())&&(it_y<=y_bin.end()); it_x++, it_y++){
-                
-                if(*it_x=*it_y){
-                    distance = distance +1;
-                }
-                
-            }
-            return distance + diff_min;
+
+    std::vector<int> convert(int num){
+        std::vector<int> num_bin;
+        while(num>0){
+            int this_bit = num%2;
+            num = num/2;
+            num_bin.push_back(this_bit);
+
         }
-        else{
-            int diff_min = y_bin.size() - x_bin.size();
+        return num_bin;
+    }
+    
+    int count_one(std::vector<int> cut){
+        std::vector<int>::iterator it_cut;
+        int number_one = 0;
+        for (it_cut = cut.begin();it_cut<cut.end();it_cut++){
+            if (*it_cut=1){
+                number_one = number_one + 1;
+            }
+        }
+        return number_one;
+    
+    }
+    
+    int hammingDistance(int x, int y){
+        int distance =0;
+        std::vector<int> x_bin = convert(x);
+        std::vector<int> y_bin = convert(y);
+        //std::cout<<y_bin.size()<<x_bin.size()<<std::endl;
+        if (y_bin.size()>x_bin.size()){ //y is larger
             std::vector<int>::iterator it_x;
             std::vector<int>::iterator it_y;
+            std::vector<int> cut_x = x_bin;
             
-            /*for (it_x=x_bin.begin(), it_y=y_bin.begin(); (it_x<=x_bin.end())&&(it_y<=y_bin.end()); it_x++, it_y++){
-                
-                if(*it_x=*it_y){
+            cut_x.erase(x_bin.end()-y_bin.size(), x_bin.end());   
+            int num_one = count_one(cut_x);
+            
+            it_x=x_bin.begin();
+            it_y=y_bin.begin();
+            
+            while((it_x<x_bin.end())&&(it_y<y_bin.end())){
+                if(*it_x!=*it_y){
                     distance = distance +1;
                 }
                 
-            }*/
-            return distance + diff_min;
+                if(it_x!=x_bin.end()&&it_y!=y_bin.end()){
+                    it_x = it_x+1;
+                    it_y = it_y+1;
+                }
+            }
+    
+            return distance+num_one;
+        }
+        else{ //x is longer
+            std::vector<int>::iterator it_x;
+            std::vector<int>::iterator it_y;
+            std::vector<int> cut_y = y_bin;
             
+            cut_y.erase(y_bin.end()-x_bin.size(), y_bin.end());   
+            int num_one = count_one(cut_y);
+            
+            it_x=x_bin.begin();
+            it_y=y_bin.begin();
+            
+            while((it_x<=x_bin.end())&&(it_y<=y_bin.end())){
+                if(*it_x!=*it_y){
+                    distance = distance +1;
+                }
+                if(it_x!=x_bin.end()&&it_y!=y_bin.end()){
+                    it_x = it_x+1;
+                    it_y = it_y+1;
+                }
+            }
+            return distance+num_one;
         }
         
     }
 };
 
-std::vector<int> Solution::convert(int num){
-    std::vector<int> num_bin;
     
-    while(num>0){
-        int this_bit = num%2;
-        num = num/2;
-        num_bin.push_back(this_bit);
-        
-    }
-    return num_bin;
-}
